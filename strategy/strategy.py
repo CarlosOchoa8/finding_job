@@ -22,7 +22,7 @@ class SearchingMotor(ABC, BrowserConfig):
         """close browser after seek browser use."""
 
     @abstractmethod
-    def find_job(self):
+    def find_job(self, url: str):
         """search job in URL for browser."""
 
 

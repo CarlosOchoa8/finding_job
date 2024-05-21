@@ -39,6 +39,4 @@ src/models/instance/
 *.vscode/
 *instance/
 
-src/static/*
-!src/static/css/
-!src/static/css/*
+*.xlsx

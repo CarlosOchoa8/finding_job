@@ -1,17 +1,14 @@
 from strategy.context import MotorProcessor
 from strategy.occ_mundial_strategy import OccMundialStrategy
 
-job_title = "python"
-job_location = "Mexico"
-motor_url = "https://www.occ.com.mx"
-
+JOB_TITLE = "python"
+JOB_LOCATION = "Mexico"
+OCC_MOTOR = "https://www.occ.com.mx"
 
 
 occ_strategy = OccMundialStrategy(
-    job_title=job_title,
-    job_location=job_location
+    job_title=JOB_TITLE,
+    job_location=JOB_LOCATION
     )
-motor_processor = MotorProcessor(strategy=occ_strategy, url=motor_url)
-cards = motor_processor.search_job()
-# motor_processor.create_excel(cards=cards)
-# motor_processor.close_browser()
+motor_processor = MotorProcessor(strategy=occ_strategy, url=OCC_MOTOR)
+motor_processor.search_job()

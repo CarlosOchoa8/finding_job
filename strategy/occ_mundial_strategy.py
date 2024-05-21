@@ -10,10 +10,13 @@ import openpyxl.utils
 import openpyxl.worksheet
 import openpyxl.worksheet.dimensions
 import pandas as pd
+from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.ui import WebDriverWait
+from webdriver_manager.chrome import ChromeDriverManager
 
 from strategy.strategy import SearchingMotor
 
@@ -27,17 +30,20 @@ class OccMundialStrategy(SearchingMotor):
     def __init__(self, job_title: str, job_location: str) -> None:
         self.job_title = job_title
         self.job_location = job_location
-        # self.browser = None
-        self.excel_name = f"OCC {datetime.now()}"
+        service = Service(ChromeDriverManager().install())
+        options = webdriver.ChromeOptions()
+        options.add_argument("--start-maximized")
+        self.browser = webdriver.Chrome(options=options, service=service)
+        self.excel_name = f"OCC_{datetime.now():%Y-%m-%d}"
 
 
     def get_browser(self, url: str):
         """Request to URL"""
-
+        pass
 
     def find_job(self, url):
         """search job in occ page"""
-        self.browser = super().create_browser()
+
         self.browser.get(url)
         position_input = self.browser.find_element(
             By.CSS_SELECTOR, '[data-testid="search-box-keyword"]'
@@ -80,7 +86,6 @@ class OccMundialStrategy(SearchingMotor):
                 (By.XPATH, '//*[starts-with(@id, "jobcard-")]')))
         # return job_cards
 
-
     # def create_excel(self, element):
         df = pd.DataFrame()
         for card in job_cards:
@@ -113,12 +118,16 @@ class OccMundialStrategy(SearchingMotor):
 
             df = pd.concat([df, temporal_df], ignore_index=True)
         # export excel
-        df.to_excel(self.excel_name, sheet_name=self.excel_name)
+        # df.to_excel(self.excel_name, sheet_name=self.excel_name)
+        df.to_excel(f"{self.excel_name}.xlsx", sheet_name="OCC")
+        self.browser.quit()
 
 
     # def customize_excel(self, excel):
+        # wb = openpyxl.load_workbook(f"{self.excel_name}.xlsx")
         wb = openpyxl.load_workbook(f"{self.excel_name}.xlsx")
-        ws = wb[self.excel_name]
+        # ws = wb[self.excel_name]
+        ws = wb["OCC"]
 
         # Ajustar automáticamente el ancho de las columnas
         for column_cells in ws.columns:
@@ -147,6 +156,8 @@ class OccMundialStrategy(SearchingMotor):
 
         # Guardar los cambios en el archivo Excel
         wb.save(f"{self.excel_name}.xlsx")
+        # wb.save("Test.xlsx")
+        # os.system("open Test.xlsx")
         os.system(f"open {self.excel_name}.xlsx")
 
 
@@ -155,7 +166,7 @@ class OccMundialStrategy(SearchingMotor):
 
 
     def create_excel(self, element):
-        return super().create_excel(element)
-    
+        pass
+
     def customize_excel(self, excel):
-        return super().customize_excel(excel)
+        pass
