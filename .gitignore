@@ -1,0 +1,44 @@
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/venv/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# User-specific stuff:
+*.idea
+*.pyc
+.idea/
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+*/instance
+.instance/
+src/models/instance/
+
+*.vscode/
+*instance/
+
+src/static/*
+!src/static/css/
+!src/static/css/*
